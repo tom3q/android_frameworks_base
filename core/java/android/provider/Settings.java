@@ -2255,14 +2255,14 @@ public final class Settings {
         public static final String STATUS_BAR_AM_PM = "status_bar_am_pm";
 
         /**
-         * Whether to show the CM battery percentage implementation instead
-         * of the stock battery icon
-         * 0: don't show / show stock icon instead
-         * 1: show cm battery / dont show stock icon
+         * Display style of the status bar battery information
+         * 0: Display the stock battery information
+         * 1: Display cm battery percentage implementation / dont show stock icon
+         * 2: Hide the battery information
          * default: 0
          * @hide
          */
-        public static final String STATUS_BAR_CM_BATTERY = "status_bar_cm_battery";
+        public static final String STATUS_BAR_BATTERY = "status_bar_battery";
 
         /**
          * Whether to show the clock in status bar
@@ -2633,6 +2633,12 @@ public final class Settings {
         public static final String QUIET_HOURS_MUTE = "quiet_hours_mute";
 
         /**
+         * Whether to disable haptic feedback during quiet hours.
+         * @hide
+         */
+        public static final String QUIET_HOURS_HAPTIC = "quiet_hours_haptic";
+
+        /**
          * Whether to remove the vibration from outgoing notifications during quiet hours.
          * @hide
          */
@@ -2655,6 +2661,18 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_CALENDAR_ALARM = "lockscreen_calendar_alarm";
+
+        /**
+         * Whether to show the next calendar event's location
+         * @hide
+         */
+        public static final String LOCKSCREEN_CALENDAR_SHOW_LOCATION = "lockscreen_calendar_show_location";
+
+        /**
+         * Whether to show the next calendar event's description
+         * @hide
+         */
+        public static final String LOCKSCREEN_CALENDAR_SHOW_DESCRIPTION = "lockscreen_calendar_show_description";
 
         /**
          * Which calendars to look for events
