@@ -724,6 +724,50 @@ public class SpicaRIL extends RIL implements CommandsInterface {
         return response;
     }
 
+    @Override
+    public void
+    setNetworkSelectionModeAutomatic(Message response) {
+        Message DeactivateDataCallMessage = null;
+        for(int DeactivateDataCallCid = 0; DeactivateDataCallCid < 5; DeactivateDataCallCid++) {
+            deactivateDataCall(DeactivateDataCallCid,DeactivateDataCallMessage);
+        }
+
+        super.setNetworkSelectionModeAutomatic(response);
+    }
+
+    @Override
+    public void
+    setNetworkSelectionModeManual(String operatorNumeric, Message response) {
+        Message DeactivateDataCallMessage = null;
+        for(int DeactivateDataCallCid = 0; DeactivateDataCallCid < 5; DeactivateDataCallCid++) {
+            deactivateDataCall(DeactivateDataCallCid,DeactivateDataCallMessage);
+        }
+
+        super.setNetworkSelectionModeManual(operatorNumeric, response);
+    }
+
+    @Override
+    public void
+    getAvailableNetworks(Message response) {
+        Message DeactivateDataCallMessage = null;
+        for(int DeactivateDataCallCid = 0; DeactivateDataCallCid < 5; DeactivateDataCallCid++) {
+            deactivateDataCall(DeactivateDataCallCid,DeactivateDataCallMessage);
+        }
+
+        super.getAvailableNetworks(response);
+    }
+
+    @Override
+    public void
+    getNetworkSelectionMode(Message response) {
+        Message DeactivateDataCallMessage = null;
+        for(int DeactivateDataCallCid = 0; DeactivateDataCallCid < 5; DeactivateDataCallCid++) {
+            deactivateDataCall(DeactivateDataCallCid,DeactivateDataCallMessage);
+        }
+
+        super.getNetworkSelectionMode(response);
+    }
+
     //Sends the real RIL request to the modem.
     private void sendPreferedNetworktype(int networkType, Message response) {
         RILRequest rr = RILRequest.obtain(
