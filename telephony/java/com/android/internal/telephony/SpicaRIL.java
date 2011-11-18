@@ -256,25 +256,9 @@ public class SpicaRIL extends RIL implements CommandsInterface {
         }
 
         if (error != 0) {
-            //ugly fix for Samsung messing up SMS_SEND request fail in binary RIL
-            if(!(error == -1 && rr.mRequest == RIL_REQUEST_SEND_SMS))
-            {
-                rr.onError(error, ret);
-                rr.release();
-                return;
-            } else {
-                try
-                {
-                    ret =  responseSMS(p);
-                } catch (Throwable tr) {
-                    Log.w(LOG_TAG, rr.serialString() + "< "
-                    + requestToString(rr.mRequest)
-                    + " exception, Processing Samsung SMS fix ", tr);
-                    rr.onError(error, ret);
-                    rr.release();
-                    return;
-                }
-            }
+            rr.onError(error, ret);
+            rr.release();
+            return;
         }
 
         if (RILJ_LOGD) riljLog(rr.serialString() + "< " + requestToString(rr.mRequest)
