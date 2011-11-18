@@ -36,8 +36,6 @@ import android.util.Log;
 
 public class SpicaRIL extends RIL implements CommandsInterface {
 
-    private boolean mSignalbarCount = SystemProperties.getInt("ro.telephony.sends_barcount", 0) == 1 ? true : false;
-
     private boolean mIsSamsungCdma = SystemProperties.getBoolean("ro.ril.samsung_cdma", false);
 
     public SpicaRIL(Context context) {
@@ -673,53 +671,6 @@ public class SpicaRIL extends RIL implements CommandsInterface {
         response = p.readString();
         if (response.length() > 8)
             response = response.substring(0, 8);
-
-        return response;
-    }
-
-    @Override
-    protected Object
-    responseSignalStrength(Parcel p) {
-        int numInts = 7;
-        int response[];
-
-        /* TODO: Add SignalStrength class to match RIL_SignalStrength */
-        response = new int[numInts];
-        for (int i = 0 ; i < numInts ; i++) {
-            response[i] = p.readInt();
-        }
-
-        /* Matching Samsung signal strength to asu.
-         *        Method taken from Samsungs cdma/gsmSignalStateTracker */
-        if(mSignalbarCount)
-        {
-            //Samsung sends the count of bars that should be displayed instead of
-            //a real signal strength
-            response[0] = ((response[0] & 0xFF00) >> 8) * 3; //gsmDbm
-        } else {
-            response[0] = response[0] & 0xFF; //gsmDbm
-        }
-        response[1] = -1; //gsmEcio
-        response[2] = (response[2] < 0)?-120:-response[2]; //cdmaDbm
-        response[3] = (response[3] < 0)?-160:-response[3]; //cdmaEcio
-        response[4] = (response[4] < 0)?-120:-response[4]; //evdoRssi
-        response[5] = (response[5] < 0)?-1:-response[5]; //evdoEcio
-        if(response[6] < 0 || response[6] > 8)
-            response[6] = -1;
-
-        return response;
-    }
-
-    @Override
-    protected Object
-    responseNetworkType(Parcel p) {
-        int response[] = (int[]) responseInts(p);
-
-        // When the modem responds Phone.NT_MODE_GLOBAL, it means Phone.NT_MODE_WCDMA_PREF
-        if (!mIsSamsungCdma && response[0] == Phone.NT_MODE_GLOBAL) {
-            Log.d(LOG_TAG, "Overriding network type response from global to WCDMA preferred");
-            response[0] = Phone.NT_MODE_WCDMA_PREF;
-        }
 
         return response;
     }
