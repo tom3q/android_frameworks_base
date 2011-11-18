@@ -676,22 +676,6 @@ public class SpicaRIL extends RIL implements CommandsInterface {
         return ret;
     }
 
-    @Override
-    public void setPreferredNetworkType(int networkType , Message response) {
-        /* Samsung modem implementation does bad things when a datacall is running
-         * while switching the preferred networktype.
-         */
-        ConnectivityManager cm =
-        (ConnectivityManager)mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if(cm.getMobileDataEnabled())
-        {
-            ConnectivityHandler handler = new ConnectivityHandler(mContext);
-            handler.setPreferedNetworkType(networkType, response);
-        } else {
-            sendPreferedNetworktype(networkType, response);
-        }
-    }
 
     //Sends the real RIL request to the modem.
     private void sendPreferedNetworktype(int networkType, Message response) {
