@@ -727,45 +727,55 @@ public class SpicaRIL extends RIL implements CommandsInterface {
     @Override
     public void
     setNetworkSelectionModeAutomatic(Message response) {
+        RILRequest rr
+                = RILRequest.obtain(RIL_REQUEST_SET_NETWORK_SELECTION_AUTOMATIC,
+                                    response);
+
         Message DeactivateDataCallMessage = null;
         for(int DeactivateDataCallCid = 0; DeactivateDataCallCid < 5; DeactivateDataCallCid++) {
             deactivateDataCall(DeactivateDataCallCid,DeactivateDataCallMessage);
         }
 
-        super.setNetworkSelectionModeAutomatic(response);
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest));
+
+        send(rr);
     }
 
     @Override
     public void
     setNetworkSelectionModeManual(String operatorNumeric, Message response) {
+        RILRequest rr
+                = RILRequest.obtain(RIL_REQUEST_SET_NETWORK_SELECTION_MANUAL,
+                                    response);
+
         Message DeactivateDataCallMessage = null;
         for(int DeactivateDataCallCid = 0; DeactivateDataCallCid < 5; DeactivateDataCallCid++) {
             deactivateDataCall(DeactivateDataCallCid,DeactivateDataCallMessage);
         }
 
-        super.setNetworkSelectionModeManual(operatorNumeric, response);
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest)
+                    + " " + operatorNumeric);
+
+        rr.mp.writeString(operatorNumeric);
+
+        send(rr);
     }
 
     @Override
     public void
     getAvailableNetworks(Message response) {
+        RILRequest rr
+                = RILRequest.obtain(RIL_REQUEST_QUERY_AVAILABLE_NETWORKS,
+                                    response);
+
         Message DeactivateDataCallMessage = null;
         for(int DeactivateDataCallCid = 0; DeactivateDataCallCid < 5; DeactivateDataCallCid++) {
             deactivateDataCall(DeactivateDataCallCid,DeactivateDataCallMessage);
         }
 
-        super.getAvailableNetworks(response);
-    }
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest));
 
-    @Override
-    public void
-    getNetworkSelectionMode(Message response) {
-        Message DeactivateDataCallMessage = null;
-        for(int DeactivateDataCallCid = 0; DeactivateDataCallCid < 5; DeactivateDataCallCid++) {
-            deactivateDataCall(DeactivateDataCallCid,DeactivateDataCallMessage);
-        }
-
-        super.getNetworkSelectionMode(response);
+        send(rr);
     }
 
     //Sends the real RIL request to the modem.
