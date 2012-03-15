@@ -721,7 +721,7 @@ status_t CameraService::Client::registerPreviewBuffers() {
                                                    previewFormat, mPixelFormat);
 #else
     // FIXME: don't use a hardcoded format here.
-    mPixelFormat = HAL_PIXEL_FORMAT_YCrCb_420_SP;
+    mPixelFormat = HAL_PIXEL_FORMAT_RGB_565;
 #endif
 
     ISurface::BufferHeap buffers(w, h, w, h,
