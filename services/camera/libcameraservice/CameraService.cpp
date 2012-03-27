@@ -721,7 +721,7 @@ status_t CameraService::Client::registerPreviewBuffers() {
                                                    previewFormat, mPixelFormat);
 #else
     // FIXME: don't use a hardcoded format here.
-    mPixelFormat = HAL_PIXEL_FORMAT_YCrCb_420_SP;
+    mPixelFormat = HAL_PIXEL_FORMAT_RGB_565;
 #endif
 
     ISurface::BufferHeap buffers(w, h, w, h,
@@ -1576,6 +1576,11 @@ void CameraService::Client::handleShutter(image_rect_type *size
         LOG1("Snapshot image width=%d, height=%d", w, h);
 #endif
 
+		/* FixME: ISurface cannot display picture with ratio 2048*1536, so we scale hight quality pic. */
+		if (w >= 1600) {
+			w /= 2;
+			h /= 2;
+		}
         ISurface::BufferHeap buffers(w, h, w, h,
             mPixelFormat, mOrientation, 0,
             mHardware->getRawHeap());
